@@ -7,10 +7,10 @@ function computerPlay() {
     if (computerRandomizer <= 1) {
         computerChoice = "Rock";
     }
-    else if (computerRandomizer > 1 && <= 2) {
+    else if (computerRandomizer > 1 && computerRandomizer <= 2) {
         computerChoice = "Paper";
     }
-    else if (computerRandomizer > 2 && <= 3) {
+    else if (computerRandomizer > 2 && computerRandomizer <= 3) {
         computerChoice = "Scissors";
     }
 
