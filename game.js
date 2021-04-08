@@ -1,10 +1,13 @@
+//declaring global variables//
 
+let scoreComputer = 0;
+let scorePlayer = 0;
 
 //function to determine the computer's move each round//
 
 function computerPlay() {
     let computerRandomizer = Math.random()*3;
-    let computerChoice
+    let computerChoice;
 
     if (computerRandomizer <= 1) {
         computerChoice = "rock";
@@ -16,16 +19,15 @@ function computerPlay() {
         computerChoice = "scissors";
     }
 
-    return computerChoice
+    return computerChoice;
 }
 
 //function to determine the player's move each round//
 
-function (playerSelection) {
-    let playerChoice = prompt("Rock, paper or scissors?");
-
-    while (playerChoice.toLowerCase() != "rock" || playerChoice.toLowerCase() != "paper" || playerChoice.toLowerCase() != "scissors" {
-        playerChoice = prompt("That is not rock, paper or scissors! Choose again.");
+function playerSelection() {
+    let playerChoice = prompt("Rock, paper or scissors?").toLowerCase();
+    while (playerChoice != "rock" && playerChoice != "paper" && playerChoice != "scissors") {
+        playerChoice = prompt("That is not rock, paper or scissors! Choose again.").toLowerCase();
     }
     
     return playerChoice;
@@ -33,51 +35,37 @@ function (playerSelection) {
 
 //function to play the five rounds//
 
-function playRound(playerSelection, computerSelection) {
-    let scoreComputer = 0;
-    let scorePlayer = 0;
-    let winMessage = "The Player chose ${playerSelection} and The Computer chose ${computerSelection}. Round number ${roundNumber} was won by You! Yaaay! Computer Score: $(scoreComputer). Player Score: ${scorePlayer}.";
-    let drawMessage = "The Player chose ${playerSelection} and The Computer chose ${computerSelection}. Round number ${roundNumber} was a tie! Computer Score: ${scoreComputer}. Player Score: ${scorePlayer}.";
-    let loseMessage = "The Player chose ${playerSelection} and The Computer chose ${computerSelection}. Round number ${roundNumber} was won by The Computer! Booo! Computer Score: ${scoreComputer}. Player Score: ${scorePlayer}.";
+function playRound(playerSelection, computerPlay, roundNumber) {
     function winRound() {
         scorePlayer++;
-        console.log(winMessage);   
+        console.log(`The Player chose ${playerSelection} and The Computer chose ${computerPlay}. Round number ${roundNumber+1} was won by You! Yaaay! Computer Score: ${scoreComputer}. Player Score: ${scorePlayer}.`);   
     }
     function drawRound() {
-        console.log(drawMessage);
+        console.log(`The Player chose ${playerSelection} and The Computer chose ${computerPlay}. Round number ${roundNumber+1} was a tie! Computer Score: ${scoreComputer}. Player Score: ${scorePlayer}.`);
     }
     function loseRound() {
         scoreComputer++;
-        console.log(loseMessage);
+        console.log(`The Player chose ${playerSelection} and The Computer chose ${computerPlay}. Round number ${roundNumber+1} was won by The Computer! Booo! Computer Score: ${scoreComputer}. Player Score: ${scorePlayer}.`);
     }
-    for (roundNumber = 0; roundNumber < 5; roundNumber++) {
-        if (playerSelection == "rock" && computerSelection == "rock") {
-            drawRound();
-        }
-        else if (playerSelection == "rock" && computerSelection == "paper") {
-            loseRound();
-        }
-        else if (playerSelection == "rock" && computerSelection == "scissors") {
-            winRound();
-        }
-        else if (playerSelection == "paper" && computerSelection == "rock") {
-            winRound();
-        }
-        else if (playerSelection == "paper" && computerSelection == "paper") {
-            drawRound();
-        }
-        else if (playerSelection == "paper" && computerSelection == "scissors") {
-            loseRound();
-        }
-        else if (playerSelection == "scissors" && computerSelection == "rock") {
-            loseRound();
-        }
-        else if (playerSelection == "scissors" && computerSelection == "paper") {
-            winRound();
-        }
-        else if (playerSelection == "scissors" && computerSelection == "scissors") {
-            drawRound();
-        }
+    if (playerSelection == computerPlay)  {
+        drawRound();
+    }
+    else if ((playerSelection == "rock" && computerPlay == "paper") || (playerSelection == "paper" && computerPlay == "scissors") || (playerSelection == "scissors" && computerPlay == "rock")) {
+        loseRound();
+    }
+    else {
+        winRound();
+    }
+}
+
+//function to run the game//
+
+function game() {
+
+    for (let roundNumber = 0; roundNumber < 5; roundNumber++) {
+        let playerChoice = playerSelection();
+        let computerChoice = computerPlay();  
+        playRound(playerChoice, computerChoice, roundNumber);
     }
     if (scorePlayer > scoreComputer) {
         console.log("Congrats! You won this round of 5.");
@@ -87,5 +75,5 @@ function playRound(playerSelection, computerSelection) {
     }
     else {
         console.log("That round of 5 was a draw! Better try again.");
-    }
+    }       
 }
